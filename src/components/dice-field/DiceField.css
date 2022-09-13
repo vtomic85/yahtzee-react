@@ -1,0 +1,46 @@
+.dice-field {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  height: 45px;
+  width: 45px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 1px;
+  background-color: white;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.dice-field:hover {
+  border: 2px solid black;
+}
+
+.background0 {
+  background-image: url("../../assets/img/0.png");
+}
+
+.background1 {
+  background-image: url("../../assets/img/1.png");
+}
+
+.background2 {
+  background-image: url("../../assets/img/2.png");
+}
+
+.background3 {
+  background-image: url("../../assets/img/3.png");
+}
+
+.background4 {
+  background-image: url("../../assets/img/4.png");
+}
+
+.background5 {
+  background-image: url("../../assets/img/5.png");
+}
+
+.background6 {
+  background-image: url("../../assets/img/6.png");
+}
