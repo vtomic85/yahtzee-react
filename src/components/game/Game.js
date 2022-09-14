@@ -6,6 +6,22 @@ import CommandButton from "../roll-button/CommandButton";
 import "./Game.css";
 
 const Game = () => {
+  const [storedResults, setStoredResults] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
+  const [isResultStored, setIsResultStored] = useState(false);
   const [ones, setOnes] = useState(0);
   const [twos, setTwos] = useState(0);
   const [threes, setThrees] = useState(0);
@@ -24,23 +40,39 @@ const Game = () => {
 
   const calculateAndSetTotal = () => {
     setTotal(
-      ones +
-        twos +
-        threes +
-        fours +
-        fives +
-        sixes +
-        threeOfKind +
-        fourOfKind +
-        fullHouse +
-        smallStraight +
-        largeStraight +
-        yahtzee +
-        chance
+      (storedResults[0] ? ones : 0) +
+        (storedResults[1] ? twos : 0) +
+        (storedResults[2] ? threes : 0) +
+        (storedResults[3] ? fours : 0) +
+        (storedResults[4] ? fives : 0) +
+        (storedResults[5] ? sixes : 0) +
+        (storedResults[6] ? threeOfKind : 0) +
+        (storedResults[7] ? fourOfKind : 0) +
+        (storedResults[8] ? fullHouse : 0) +
+        (storedResults[9] ? smallStraight : 0) +
+        (storedResults[10] ? largeStraight : 0) +
+        (storedResults[11] ? yahtzee : 0) +
+        (storedResults[12] ? chance : 0)
     );
   };
 
   const resetAll = () => {
+    setStoredResults([
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+    ]);
+    setIsResultStored(false);
     setOnes(0);
     setTwos(0);
     setThrees(0);
@@ -63,6 +95,7 @@ const Game = () => {
     setKeepValues([0, 0, 0, 0, 0, 0]);
     setTotal(0);
     setAttempt(0);
+    setIsResultStored(true);
   };
 
   useEffect(() => {
@@ -81,6 +114,7 @@ const Game = () => {
     }
     setCurrentValues([...newValues]);
     setAttempt((prev) => prev + 1);
+    setIsResultStored(false);
   };
 
   const moveCurrentToKeep = (index) => {
@@ -121,92 +155,132 @@ const Game = () => {
           counter[allValues[i] - 1]++;
         }
       }
+      if (!isResultStored) {
+        // Check individual values
+        if (!storedResults[0]) setOnes(counter[0]);
+        if (!storedResults[1]) setTwos(counter[1] * 2);
+        if (!storedResults[2]) setThrees(counter[2] * 3);
+        if (!storedResults[3]) setFours(counter[3] * 4);
+        if (!storedResults[4]) setFives(counter[4] * 5);
+        if (!storedResults[5]) setSixes(counter[5] * 6);
 
-      // Check individual values
-      setOnes(counter[0]);
-      setTwos(counter[1] * 2);
-      setThrees(counter[2] * 3);
-      setFours(counter[3] * 4);
-      setFives(counter[4] * 5);
-      setSixes(counter[5] * 6);
-
-      // Check three of kind
-      for (let i = 0; i < 6; i++) {
-        if (counter[i] >= 3) {
-          setThreeOfKind(3 * (i + 1));
-        }
-      }
-      // Check four of kind
-      for (let i = 0; i < 6; i++) {
-        if (counter[i] >= 4) {
-          setFourOfKind(4 * (i + 1));
-        }
-      }
-
-      // Check full house
-      for (let i = 0; i < 6; i++) {
-        if (counter[i] >= 3) {
-          for (let j = 0; j < 6; j++) {
-            if (j !== i && counter[j] >= 2) {
-              setFullHouse(25);
+        // Check three of kind
+        if (!storedResults[6]) {
+          for (let i = 0; i < 6; i++) {
+            if (counter[i] >= 3) {
+              setThreeOfKind(3 * (i + 1));
             }
           }
         }
-      }
 
-      // Check small straight
-      if (
-        (counter[0] >= 1 &&
-          counter[1] >= 1 &&
-          counter[2] >= 1 &&
-          counter[3] >= 1) ||
-        (counter[1] >= 1 &&
-          counter[2] >= 1 &&
-          counter[3] >= 1 &&
-          counter[4] >= 1) ||
-        (counter[2] >= 1 &&
-          counter[3] >= 1 &&
-          counter[4] >= 1 &&
-          counter[5] >= 1)
-      ) {
-        setSmallStraight(30);
-      }
-
-      // Check large straight
-      if (
-        (counter[0] >= 1 &&
-          counter[1] >= 1 &&
-          counter[2] >= 1 &&
-          counter[3] >= 1 &&
-          counter[4] >= 1) ||
-        (counter[1] >= 1 &&
-          counter[2] >= 1 &&
-          counter[3] >= 1 &&
-          counter[4] >= 1 &&
-          counter[5] >= 1)
-      ) {
-        setLargeStraight(40);
-      }
-
-      // Check yahtzee
-      for (let i = 0; i < 6; i++) {
-        if (counter[i] >= 5) {
-          setYahtzee(50);
+        // Check four of kind
+        if (!storedResults[7]) {
+          for (let i = 0; i < 6; i++) {
+            if (counter[i] >= 4) {
+              setFourOfKind(4 * (i + 1));
+            }
+          }
         }
-      }
 
-      // Check chance
-      setChance(
-        allValues[0] +
-          allValues[1] +
-          allValues[2] +
-          allValues[3] +
-          allValues[4] +
-          allValues[5]
-      );
+        // Check full house
+        if (!storedResults[8]) {
+          for (let i = 0; i < 6; i++) {
+            if (counter[i] >= 3) {
+              for (let j = 0; j < 6; j++) {
+                if (j !== i && counter[j] >= 2) {
+                  setFullHouse(25);
+                }
+              }
+            }
+          }
+        }
+
+        // Check small straight
+        if (!storedResults[9]) {
+          if (
+            (counter[0] >= 1 &&
+              counter[1] >= 1 &&
+              counter[2] >= 1 &&
+              counter[3] >= 1) ||
+            (counter[1] >= 1 &&
+              counter[2] >= 1 &&
+              counter[3] >= 1 &&
+              counter[4] >= 1) ||
+            (counter[2] >= 1 &&
+              counter[3] >= 1 &&
+              counter[4] >= 1 &&
+              counter[5] >= 1)
+          ) {
+            setSmallStraight(30);
+          }
+        }
+
+        // Check large straight
+        if (!storedResults[10]) {
+          if (
+            (counter[0] >= 1 &&
+              counter[1] >= 1 &&
+              counter[2] >= 1 &&
+              counter[3] >= 1 &&
+              counter[4] >= 1) ||
+            (counter[1] >= 1 &&
+              counter[2] >= 1 &&
+              counter[3] >= 1 &&
+              counter[4] >= 1 &&
+              counter[5] >= 1)
+          ) {
+            setLargeStraight(40);
+          }
+        }
+
+        // Check yahtzee
+        if (!storedResults[11]) {
+          for (let i = 0; i < 6; i++) {
+            if (counter[i] >= 5) {
+              setYahtzee(50);
+            }
+          }
+        }
+
+        // Check chance
+        if (!storedResults[12]) {
+          setChance(
+            allValues[0] +
+              allValues[1] +
+              allValues[2] +
+              allValues[3] +
+              allValues[4] +
+              allValues[5]
+          );
+        }
+      } else {
+        setOnes(!storedResults[0] ? 0 : ones);
+        setTwos(!storedResults[1] ? 0 : twos);
+        setThrees(!storedResults[2] ? 0 : threes);
+        setFours(!storedResults[3] ? 0 : fours);
+        setFives(!storedResults[4] ? 0 : fives);
+        setSixes(!storedResults[5] ? 0 : sixes);
+        setThreeOfKind(!storedResults[6] ? 0 : threeOfKind);
+        setFourOfKind(!storedResults[7] ? 0 : fourOfKind);
+        setFullHouse(!storedResults[8] ? 0 : fullHouse);
+        setSmallStraight(!storedResults[9] ? 0 : smallStraight);
+        setLargeStraight(!storedResults[10] ? 0 : largeStraight);
+        setYahtzee(!storedResults[11] ? 0 : yahtzee);
+        setChance(!storedResults[12] ? 0 : chance);
+      }
     };
     calculatePossibleScores();
-  }, [currentValues, keepValues, resetAll]);
+  }, [currentValues, keepValues, storedResults, isResultStored, resetAll]);
+
+  const storeResult = (index) => {
+    let newStoredResults = [...storedResults];
+    newStoredResults[index] = !storedResults[index];
+    setStoredResults(newStoredResults);
+    setIsResultStored(true);
+    setAttempt(0);
+    setCurrentValues([0, 0, 0, 0, 0, 0]);
+    setKeepValues([0, 0, 0, 0, 0, 0]);
+  };
 
   return (
     <div className="game">
@@ -235,6 +309,9 @@ const Game = () => {
           yahtzee={yahtzee}
           chance={chance}
           total={total}
+          storedResults={storedResults}
+          storeResult={storeResult}
+          isResultStored={isResultStored}
         />
       </div>
     </div>

@@ -4,3 +4,11 @@
   padding-right: 5px;
   letter-spacing: normal;
 }
+
+.stored {
+  color: navy;
+}
+
+.not-stored {
+  color: red;
+}
