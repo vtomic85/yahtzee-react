@@ -271,14 +271,18 @@ const Game = () => {
 
         // Check chance
         if (!storedResults[12]) {
-          setChance(
-            allValues[0] +
-              allValues[1] +
-              allValues[2] +
-              allValues[3] +
-              allValues[4] +
-              allValues[5]
-          );
+          if (attempt === 1) {
+            setChance(
+              allValues[0] +
+                allValues[1] +
+                allValues[2] +
+                allValues[3] +
+                allValues[4] +
+                allValues[5]
+            );
+          } else {
+            setChance(0);
+          }
         }
       } else {
         setOnes(!storedResults[0] ? 0 : ones);
@@ -293,7 +297,7 @@ const Game = () => {
         setSmallStraight(!storedResults[9] ? 0 : smallStraight);
         setLargeStraight(!storedResults[10] ? 0 : largeStraight);
         setYahtzee(!storedResults[11] ? 0 : yahtzee);
-        setChance(!storedResults[12] ? 0 : chance);
+        setChance(!storedResults[12] || attempt > 1 ? 0 : chance);
       }
     };
     calculatePossibleScores();
