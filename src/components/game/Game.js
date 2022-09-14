@@ -38,24 +38,6 @@ const Game = () => {
   const [total, setTotal] = useState(0);
   const [attempt, setAttempt] = useState(0);
 
-  const calculateAndSetTotal = () => {
-    setTotal(
-      (storedResults[0] ? ones : 0) +
-        (storedResults[1] ? twos : 0) +
-        (storedResults[2] ? threes : 0) +
-        (storedResults[3] ? fours : 0) +
-        (storedResults[4] ? fives : 0) +
-        (storedResults[5] ? sixes : 0) +
-        (storedResults[6] ? threeOfKind : 0) +
-        (storedResults[7] ? fourOfKind : 0) +
-        (storedResults[8] ? fullHouse : 0) +
-        (storedResults[9] ? smallStraight : 0) +
-        (storedResults[10] ? largeStraight : 0) +
-        (storedResults[11] ? yahtzee : 0) +
-        (storedResults[12] ? chance : 0)
-    );
-  };
-
   const resetAll = () => {
     setStoredResults([
       false,
@@ -86,7 +68,7 @@ const Game = () => {
     setLargeStraight(0);
     setYahtzee(0);
     setChance(0);
-    calculateAndSetTotal();
+    calculateAndSetTotal(storedResults);
   };
 
   const newGame = () => {
@@ -115,6 +97,42 @@ const Game = () => {
     setCurrentValues([...newValues]);
     setAttempt((prev) => prev + 1);
     setIsResultStored(false);
+  };
+
+  const calculateAndSetTotal = (storedResults) => {
+    setTotal(
+      (storedResults[0] ? ones : 0) +
+        (storedResults[1] ? twos : 0) +
+        (storedResults[2] ? threes : 0) +
+        (storedResults[3] ? fours : 0) +
+        (storedResults[4] ? fives : 0) +
+        (storedResults[5] ? sixes : 0) +
+        (storedResults[6] ? threeOfKind : 0) +
+        (storedResults[7] ? fourOfKind : 0) +
+        (storedResults[8] ? fullHouse : 0) +
+        (storedResults[9] ? smallStraight : 0) +
+        (storedResults[10] ? largeStraight : 0) +
+        (storedResults[11] ? yahtzee : 0) +
+        (storedResults[12] ? chance : 0)
+    );
+  };
+
+  const storeResult = (index) => {
+    setStoredResults((prev) => {
+      const newStoredResults = prev.map((result, i) => {
+        if (i === index) {
+          return !result;
+        } else {
+          return result;
+        }
+      });
+      calculateAndSetTotal(newStoredResults);
+      return newStoredResults;
+    });
+    setIsResultStored(true);
+    setAttempt(0);
+    setCurrentValues([0, 0, 0, 0, 0, 0]);
+    setKeepValues([0, 0, 0, 0, 0, 0]);
   };
 
   const moveCurrentToKeep = (index) => {
@@ -271,16 +289,6 @@ const Game = () => {
     };
     calculatePossibleScores();
   }, [currentValues, keepValues, storedResults, isResultStored, resetAll]);
-
-  const storeResult = (index) => {
-    let newStoredResults = [...storedResults];
-    newStoredResults[index] = !storedResults[index];
-    setStoredResults(newStoredResults);
-    setIsResultStored(true);
-    setAttempt(0);
-    setCurrentValues([0, 0, 0, 0, 0, 0]);
-    setKeepValues([0, 0, 0, 0, 0, 0]);
-  };
 
   return (
     <div className="game">
