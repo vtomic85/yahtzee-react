@@ -11,7 +11,7 @@ const CommandButton = ({ onClick, attempt, type }) => {
         <p>
           {type === "roll"
             ? attempt < 3
-              ? `Attempt #${attempt + 1}`
+              ? `Attempt ${attempt + 1}/3`
               : `No more attempts`
             : null}
         </p>

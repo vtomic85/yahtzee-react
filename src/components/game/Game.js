@@ -117,6 +117,15 @@ const Game = () => {
     );
   };
 
+  const isGameOver = (storedResults) => {
+    if (!storedResults) return false;
+    let res = true;
+    storedResults.forEach((result) => {
+      if (!result) res = false;
+    });
+    return res;
+  };
+
   const storeResult = (index) => {
     setStoredResults((prev) => {
       const newStoredResults = prev.map((result, i) => {
@@ -298,7 +307,11 @@ const Game = () => {
           onDiceClicked={moveCurrentToKeep}
         />
         <KeepArray values={keepValues} onDiceClicked={moveKeepToCurrent} />
-        <CommandButton onClick={rollDices} attempt={attempt} type="roll" />
+        {!isGameOver(storedResults) ? (
+          <CommandButton onClick={rollDices} attempt={attempt} type="roll" />
+        ) : (
+          <p>Game over!</p>
+        )}
         <CommandButton onClick={newGame} attempt={attempt} type="new-game" />
       </div>
       <div className="pane">
