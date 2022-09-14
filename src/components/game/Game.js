@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ScoreBoard from "../score-board/ScoreBoard";
 import CurrentAttempt from "../current-attempt/CurrentAttempt";
 import KeepArray from "../keep-array/KeepArray";
-import RollButton from "../roll-button/RollButton";
+import CommandButton from "../roll-button/CommandButton";
 import "./Game.css";
 
 const Game = () => {
@@ -57,6 +57,14 @@ const Game = () => {
     calculateAndSetTotal();
   };
 
+  const newGame = () => {
+    resetAll();
+    setCurrentValues([0, 0, 0, 0, 0, 0]);
+    setKeepValues([0, 0, 0, 0, 0, 0]);
+    setTotal(0);
+    setAttempt(0);
+  };
+
   useEffect(() => {
     resetAll();
   }, []);
@@ -101,7 +109,6 @@ const Game = () => {
 
   useEffect(() => {
     const calculatePossibleScores = () => {
-      resetAll();
       let allValues = [0, 0, 0, 0, 0, 0];
       let counter = [0, 0, 0, 0, 0, 0];
       for (let i = 0; i < 6; i++) {
@@ -209,7 +216,8 @@ const Game = () => {
           onDiceClicked={moveCurrentToKeep}
         />
         <KeepArray values={keepValues} onDiceClicked={moveKeepToCurrent} />
-        <RollButton onClick={rollDices} attempt={attempt} />
+        <CommandButton onClick={rollDices} attempt={attempt} type="roll" />
+        <CommandButton onClick={newGame} attempt={attempt} type="new-game" />
       </div>
       <div className="pane">
         <ScoreBoard

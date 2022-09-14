@@ -1,4 +1,4 @@
-button {
+.command-button button {
   height: 100px;
   width: 200px;
   margin: 10px;
@@ -8,30 +8,29 @@ button {
   background-color: rgb(60, 60, 120);
   color: #fff;
 }
-
-button:hover {
+.command-button button:hover {
   background-color: rgb(60, 80, 120);
   border: 5px inset rgba(0, 0, 0, 0.5);
 }
 
-button:active {
+.command-button button:active {
   background-color: rgb(80, 80, 140);
 }
 
-button:disabled,
-button:disabled:hover {
+.command-button button:disabled,
+.command-button button:disabled:hover {
   background-color: lightgray;
   color: gray;
   cursor: default;
   border: none;
 }
 
-button p:first-of-type {
+.command-button button > p:first-of-type {
   font-size: 2rem;
   letter-spacing: 1.5px;
 }
 
-button p:last-of-type {
+.command-button button > p:last-of-type {
   font-size: 0.75rem;
   letter-spacing: 1.5px;
 }
