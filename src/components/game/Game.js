@@ -314,7 +314,7 @@ const Game = () => {
         {!isGameOver(storedResults) ? (
           <CommandButton onClick={rollDices} attempt={attempt} type="roll" />
         ) : (
-          <p>Game over!</p>
+          <p>Game over! Final score: {total}</p>
         )}
         <CommandButton onClick={newGame} attempt={attempt} type="new-game" />
       </div>
