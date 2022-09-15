@@ -4,8 +4,11 @@
   margin: 20px 0;
 }
 
-p {
+.keep-array p {
   text-align: center;
   text-transform: uppercase;
   font-size: 1.5rem;
+  font-size: 2rem;
+  color: #f00;
+  text-shadow: 1px 1px 1px black;
 }
