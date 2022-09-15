@@ -5,21 +5,24 @@
   padding: 10px;
   border-radius: 20px;
   cursor: pointer;
-  background-color: rgb(60, 60, 120);
+  background-color: rgba(255, 0, 0, 0.8);
   color: #fff;
 }
 .command-button button:hover {
-  background-color: rgb(60, 80, 120);
-  border: 5px inset rgba(0, 0, 0, 0.5);
+  background-color: rgb(195, 30, 30);
+  transform: scale(0.95);
+  transition-duration: 300ms;
 }
 
 .command-button button:active {
-  background-color: rgb(80, 80, 140);
+  background-color: #fff;
+  color: red;
 }
 
 .command-button button:disabled,
 .command-button button:disabled:hover {
   background-color: lightgray;
+  transform: none;
   color: gray;
   cursor: default;
   border: none;
